@@ -3,17 +3,9 @@ const searchPhone = () => {
     const searchText = searchField.value;
     // clear data
     searchField.value = '';
+    //Error for Null search
     if (searchText == '') {
-        //error show korao
-        const noSearch = document.getElementById('error-result');
-        noSearch.textContent = '';
-        const notFound = document.createElement('div');
-        notFound.innerHTML = `
-        <div>
-            <h4 class="text-center text-danger">Please Search Something</h4>
-        </div>
-        `;
-        noSearch.appendChild(notFound);
+        alert('Please Search Something.')
     }
     else {
         // LoadPhone
@@ -30,9 +22,10 @@ const searchPhone = () => {
 // display Phone
 const displayPhone = data => {
     const searchResult = document.getElementById('search-result');
-
     searchResult.textContent = '';
+    if (data.length === 0) {
 
+    }
     data.slice(-20).forEach(phone => {
         const div = document.createElement('div');
         div.classList.add('col');
@@ -71,16 +64,24 @@ const displayPhoneDetail = detailsPhone => {
         <img src="${detailsPhone.image}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">${detailsPhone.name}</h5>
-            <p class="card-text">Release Date: ${detailsPhone.releaseDate}</p>
+            <p class="card-text">Release Date: ${detailsPhone.releaseDate ? detailsPhone.releaseDate : 'Date not found!'}</p>
             <p class="card-text">Brand: ${detailsPhone.brand}</p>
             <p class="card-text">Storage: ${detailsPhone.mainFeatures.storage}</p>
             <p class="card-text">Display Size: ${detailsPhone.mainFeatures.displaySize}</p>
             <p class="card-text">Chipset: ${detailsPhone.mainFeatures.chipSet}</p>
             <p class="card-text">Memory: ${detailsPhone.mainFeatures.memory}</p>
             <p class="card-text">Sensors: ${detailsPhone.mainFeatures.sensors}</p>
-            <p class="card-text">Others: </p>
+        <div>Others:
+            <ul>
+                <li>WLAN: ${detailsPhone.others ? detailsPhone.others.WLAN : ''}</li>
+                <li class="border-0">Bluetooth: ${detailsPhone.others ? detailsPhone.others.Bluetooth : ''}</li>
+                <li class="card-text">GPS: ${detailsPhone.others ? detailsPhone.others.GPS : ''}</li>
+                <li class="card-text">NFC: ${detailsPhone.others ? detailsPhone.others.NFC : ''}</li>
+                <li class="card-text">Radio: ${detailsPhone.others ? detailsPhone.others.Radio : ''}</li>
+                <li class="card-text">USB: ${detailsPhone.others ? detailsPhone.others.USB : ''}</li>
+            </ul>
         </div>
     <div>
-    `;
+        `;
     phoneDetails.appendChild(div);
 }
