@@ -73,12 +73,12 @@ const displayPhoneDetail = detailsPhone => {
             <p class="card-text">Sensors: ${detailsPhone.mainFeatures.sensors}</p>
         <div>Others:
             <ul>
-                <li>WLAN: ${detailsPhone.others ? detailsPhone.others.WLAN : ''}</li>
-                <li class="border-0">Bluetooth: ${detailsPhone.others ? detailsPhone.others.Bluetooth : ''}</li>
-                <li class="card-text">GPS: ${detailsPhone.others ? detailsPhone.others.GPS : ''}</li>
-                <li class="card-text">NFC: ${detailsPhone.others ? detailsPhone.others.NFC : ''}</li>
-                <li class="card-text">Radio: ${detailsPhone.others ? detailsPhone.others.Radio : ''}</li>
-                <li class="card-text">USB: ${detailsPhone.others ? detailsPhone.others.USB : ''}</li>
+                <li>WLAN: ${detailsPhone.others ? detailsPhone.others.WLAN : 'Not Available'}</li>
+                <li class="border-0">Bluetooth: ${detailsPhone.others ? detailsPhone.others.Bluetooth : 'Not Available'}</li>
+                <li class="card-text">GPS: ${detailsPhone.others ? detailsPhone.others.GPS : 'Not Available'}</li>
+                <li class="card-text">NFC: ${detailsPhone.others ? detailsPhone.others.NFC : 'Not Available'}</li>
+                <li class="card-text">Radio: ${detailsPhone.others ? detailsPhone.others.Radio : 'Not Available'}</li>
+                <li class="card-text">USB: ${detailsPhone.others ? detailsPhone.others.USB : 'Not Available'}</li>
             </ul>
         </div>
     <div>
