@@ -3,16 +3,29 @@ const searchPhone = () => {
     const searchText = searchField.value;
     // clear data
     searchField.value = '';
-    // LoadPhone
-    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+    if (searchText == '') {
+        //error show korao
+        const noSearch = document.getElementById('error-result');
+        noSearch.textContent = '';
+        const notFound = document.createElement('div');
+        notFound.innerHTML = `
+        <div>
+            <h4 class="text-center text-danger">Please Search Something</h4>
+        </div>
+        `;
+        noSearch.appendChild(notFound);
+    }
+    else {
+        // LoadPhone
+        const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
 
-    fetch(url)
-        .then(res => res.json())
-        .then(loadPhone => displayPhone(loadPhone.data));
+        fetch(url)
+            .then(res => res.json())
+            .then(loadPhone => displayPhone(loadPhone.data))
 
         displayPhoneDetail().textContent = '';
+    }
 }
-
 
 // display Phone
 const displayPhone = data => {
@@ -20,7 +33,7 @@ const displayPhone = data => {
 
     searchResult.textContent = '';
 
-    data.forEach(phone => {
+    data.slice(-20).forEach(phone => {
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -65,6 +78,7 @@ const displayPhoneDetail = detailsPhone => {
             <p class="card-text">Chipset: ${detailsPhone.mainFeatures.chipSet}</p>
             <p class="card-text">Memory: ${detailsPhone.mainFeatures.memory}</p>
             <p class="card-text">Sensors: ${detailsPhone.mainFeatures.sensors}</p>
+            <p class="card-text">Others: </p>
         </div>
     <div>
     `;
