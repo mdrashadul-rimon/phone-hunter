@@ -1,20 +1,29 @@
+// spinner function
+const toggleSpinner = displayStyle => {
+    document.getElementById('spinner').style.display = displayStyle;
+}
+//search phone
 const searchPhone = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
+
+    //display spinner
+    toggleSpinner('block');
+
     // clear data
     searchField.value = '';
+
     //Error for Null search
     if (searchText == '') {
         alert('Please Search Something.')
-    }
-    else {
+        toggleSpinner('none');
+    } else {
         // LoadPhone
         const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
-
         fetch(url)
             .then(res => res.json())
             .then(loadPhone => displayPhone(loadPhone.data))
-
+        // clear phone details
         displayPhoneDetail().textContent = '';
     }
 }
@@ -23,36 +32,45 @@ const searchPhone = () => {
 const displayPhone = data => {
     const searchResult = document.getElementById('search-result');
     searchResult.textContent = '';
-    if (data.length === 0) {
 
-    }
-    data.slice(-20).forEach(phone => {
-        const div = document.createElement('div');
-        div.classList.add('col');
-        div.innerHTML = `
-            <div class="shadow p-3 bg-body rounded">
+    //Error for not found
+    if (data.length === 0) {
+        const error = document.getElementById('error-result');
+        error.innerHTML = `
+        <h5>No result found</h5>`;
+        searchResult.appendChild(error);
+        toggleSpinner('none');
+        
+    } else {
+        //show 20 data
+        data.slice(-20).forEach(phone => {
+            const div = document.createElement('div');
+            div.classList.add('col');
+            div.innerHTML = `
+            <div class="shadow p-3 bg-body rounded-3">
                 <img src="${phone.image}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${phone.phone_name}</h5>
                     <p class="card-text">${phone.brand}</p>
                 </div>
-                <a href="#" onclick='loadPhoneDetail("${phone.slug}")' class="btn btn-primary">Show Details</a>
+                <a href="#" onclick='loadPhoneDetail("${phone.slug}")' class="btn btn-success">Show Details</a>
             </div>
             `;
-        searchResult.appendChild(div);
-    });
+            searchResult.appendChild(div);
+        });
+        toggleSpinner('none');
+    }
 }
 
-// loadPhoneDetail
+// loadPhone Details
 const loadPhoneDetail = id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
-    console.log(url);
     fetch(url)
         .then(res => res.json())
         .then(send => displayPhoneDetail(send.data));
 }
 
-// displayPhone Details
+// display Phone Details
 const displayPhoneDetail = detailsPhone => {
 
     const phoneDetails = document.getElementById('phone-details');
@@ -60,11 +78,11 @@ const displayPhoneDetail = detailsPhone => {
     const div = document.createElement('div');
     div.classList.add('card');
     div.innerHTML = `
-    <div class="border-none shadow p-3 bg-body rounded">
+    <div class="my-2 shadow p-3 bg-body rounded-3">
         <img src="${detailsPhone.image}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">${detailsPhone.name}</h5>
-            <p class="card-text">Release Date: ${detailsPhone.releaseDate ? detailsPhone.releaseDate : 'Date not found!'}</p>
+            <p class="card-text text-success">Release Date: ${detailsPhone.releaseDate ? detailsPhone.releaseDate : 'Date not found!'}</p>
             <p class="card-text">Brand: ${detailsPhone.brand}</p>
             <p class="card-text">Storage: ${detailsPhone.mainFeatures.storage}</p>
             <p class="card-text">Display Size: ${detailsPhone.mainFeatures.displaySize}</p>
@@ -80,6 +98,7 @@ const displayPhoneDetail = detailsPhone => {
                 <li class="card-text">Radio: ${detailsPhone.others ? detailsPhone.others.Radio : 'Not Available'}</li>
                 <li class="card-text">USB: ${detailsPhone.others ? detailsPhone.others.USB : 'Not Available'}</li>
             </ul>
+        </div>
         </div>
     <div>
         `;
