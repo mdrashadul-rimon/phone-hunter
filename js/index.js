@@ -58,7 +58,7 @@ const displayPhone = data => {
             `;
             searchResult.appendChild(div);
         });
-        toggleSpinner('none');
+        toggleSpinner('none');        
     }
 }
 
